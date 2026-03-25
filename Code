@@ -1,0 +1,59 @@
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, classification_report
+
+# Dataset (Expanded)
+data = {
+    'fever':       [1,1,0,0,1,1,0,1,0,1,1,0,1,0],
+    'cough':       [1,1,1,0,1,1,0,1,0,1,1,0,1,0],
+    'headache':    [1,1,0,1,1,1,0,1,0,1,1,0,1,0],
+    'fatigue':     [1,1,1,0,1,1,0,1,0,1,1,0,1,0],
+    'body_pain':   [1,1,0,0,1,1,0,1,0,1,1,0,1,0],
+    'sore_throat': [1,1,1,0,1,1,0,1,0,1,1,0,1,0],
+    'runny_nose':  [1,1,1,1,0,1,0,0,1,1,1,0,0,1],
+    'disease': [
+        'Flu','Viral Fever','Cold','Allergy','Flu','Infection',
+        'Allergy','Viral Fever','Allergy','Infection',
+        'Viral Fever','Cold','Flu','Allergy'
+    ]
+}
+
+df = pd.DataFrame(data)
+
+# Features & Labels
+X = df.drop('disease', axis=1)
+y = df['disease']
+
+# Train-Test Split
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# Model Training
+model = DecisionTreeClassifier()
+model.fit(X_train, y_train)
+
+# Model Evaluation
+y_pred = model.predict(X_test)
+
+accuracy = accuracy_score(y_test, y_pred)
+print("\n Model Accuracy:", round(accuracy * 100, 2), "%")
+
+print("\n Classification Report:\n")
+print(classification_report(y_test, y_pred))
+
+#  User Input Section
+print("\n Enter symptoms (1 = Yes, 0 = No):")
+
+user_input = []
+for symptom in X.columns:
+    value = int(input(f"{symptom.replace('_',' ').title()}: "))
+    user_input.append(value)
+
+# Prediction
+prediction = model.predict([user_input])
+
+print("\n Predicted Disease:", prediction[0])
+
+print("\n Note: This is a basic prediction and not a medical diagnosis.")
