@@ -1,4 +1,4 @@
-Advanced Health Symptom Checker (AI/ML Project)
+Health Symptom Checker (AI/ML Project)
 
 • Overview:
 The Advanced Health Symptom Checker is a Machine Learning-based project that predicts possible diseases based on user-input symptoms.
